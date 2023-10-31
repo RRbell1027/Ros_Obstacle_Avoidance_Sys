@@ -25,21 +25,21 @@ $ros2 launch my_bot rsp.launch.py
 ```
 
 ## Container tree
-.
-├── car_ws
-│   └── src
-│       └── my_bot
-│           ├── CMakeLists.txt
-│           ├── config
-│           │   ├── empty.yaml
-│           │   └── veiw_bot.rviz
-│           ├── description
-│           │   ├── inertial_macros.xacro
-│           │   ├── robot.urdf.xacro
-│           │   └── robot_core.xacro
-│           ├── launch
-│           │   └── rsp.launch.py
-│           ├── package.xml
-│           └── worlds
-│               └── empty.world
-└── run_docker.bash
+. \
+├── car_ws \
+│   └── src \
+│       └── my_bot \
+│           ├── CMakeLists.txt \
+│           ├── config \
+│           │   ├── empty.yaml \
+│           │   └── veiw_bot.rviz \
+│           ├── description \
+│           │   ├── inertial_macros.xacro \
+│           │   ├── robot.urdf.xacro \
+│           │   └── robot_core.xacro \
+│           ├── launch \
+│           │   └── rsp.launch.py \
+│           ├── package.xml \
+│           └── worlds \
+│               └── empty.world \
+└── run_docker.bash \
