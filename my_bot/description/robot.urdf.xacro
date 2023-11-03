@@ -4,6 +4,6 @@
     <xacro:include filename="robot_core.xacro"/>
 
     <xacro:include filename="gazebo_control.xacro"/>
-    <!-- <xacro:include filename="my_camera.xacro" /> -->
+    <xacro:include filename="depth_camera.xacro" />
 
 </robot>
