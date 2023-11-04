@@ -7,6 +7,7 @@ COPY run_docker.bash run_docker.bash
 COPY my_bot car_ws/src/my_bot
 
 RUN apt-get install -y ros-iron-gazebo-ros-pkgs
+RUN apt-get install -y ros-iron-joint-state-publisher-gui
 RUN echo 'source /opt/ros/iron/setup.bash' >> ~/.bahsrc
 
 RUN echo "done!"
