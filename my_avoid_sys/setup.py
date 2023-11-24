@@ -20,7 +20,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'depth_picture_gui = my_avoid_sys.depth_picture_collector:main'
+            'depth_picture_gui = my_avoid_sys.depth_picture_gui:main',
+            'obstacle_detect = my_avoid_sys.obstacle_detect:main',
+            'teleop_twist = my_avoid_sys.teleop_twist:main',
+            'robot_controller = my_avoid_sys.robot_controller:main'
         ],
     },
 )
