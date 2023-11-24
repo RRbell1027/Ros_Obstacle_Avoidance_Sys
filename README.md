@@ -12,7 +12,7 @@ Since docker cannot execute gui process solely, I provide some solution to fix t
 * by Windows \
 Install and run XLaunch before you use following command to run the container. 
 ```bash
-$docker run --name roscar_container -e DISPLAY=host.docker.internal:0.0 -it ros_v2
+$docker run --name roscar_container -e DISPLAY=host.docker.internal:0.0 -it roscar_v2
 ```
 * by Linux(Ubuntu) \
 The bash file is provided in the project. Cloned by [HaiderAbasi/ROS2-Path-Planning-and-Maze-Solving](https://github.com/HaiderAbasi/ROS2-Path-Planning-and-Maze-Solving/tree/master/docker)
