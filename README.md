@@ -1,45 +1,34 @@
-## This is a costumized ros container for Obstacle Avoidance Vehicle
-As the title said, the car model "my_bot" is generated from [joshnewans/my_bot](https://github.com/joshnewans/my_bot). \
-I combine the model and docker for efficiently and conveniently open it from container. \
-Also, run_docker.bash provide a simple way to run ros GUI in container. (e.g. rviz2, gazebo) \
-But I still have to source setup.bash and build the workspace by myself. Maybe I will fix it at the future. \
+## This is a preworkspace docker image
+Image include the clone of [joshnewans/articubot_one](https://github.com/joshnewans/articubot_one/tree/main), which is a car simumlation package with lidar, depth camera and so on sensors I need, and my obstacle avoid system.  
 
 ## Configuration Steps
-1. Run run_docker file, it will build up image of local Dockerfile and run into bash with an enable of GUI access.
+1. Build the image
 ```bash
-$chmod +x *
-$./run_docker.bash
+$docker build -t roscar_v2 .
 ```
 
-2. Build the workspace
+2. Run the image:
+Since docker cannot execute gui process solely, I provide some solution to fix the problem by this [video](https://www.youtube.com/watch?v=qWuudNxFGOQ).
+* by Windows \
+Install and run XLaunch before you use following command to run the container. 
 ```bash
-$source opt/ros/iron/setup.bash
-$cd car_ws/
-$colcon build --symlink-install
-``` 
+$docker run --name roscar_container -e DISPLAY=host.docker.internal:0.0 -it ros_v2
+```
+* by Linux(Ubuntu) \
+The bash file is provided in the project. Cloned by [HaiderAbasi/ROS2-Path-Planning-and-Maze-Solving](https://github.com/HaiderAbasi/ROS2-Path-Planning-and-Maze-Solving/tree/master/docker)
+```bash
+$chmod -x run_by_linux.bash
+$./run_by_linux.bash
+```
 
-3. Launch rsp.launch.py file, and the car model will be ready.
+3. Build the workspace
+```bash
+$cd car_ws
+$colcon build --symlink-install
+```
+
+4. Launch simulation
 ```bash
 $source install/setup.bash
-$ros2 launch my_bot rsp.launch.py
+$ros2 launch articubot_one launch_sim.launch.py
 ```
-
-## Container tree
-. \
-├── car_ws \
-│   └── src \
-│       └── my_bot \
-│           ├── CMakeLists.txt \
-│           ├── config \
-│           │   ├── empty.yaml \
-│           │   └── veiw_bot.rviz \
-│           ├── description \
-│           │   ├── inertial_macros.xacro \
-│           │   ├── robot.urdf.xacro \
-│           │   └── robot_core.xacro \
-│           ├── launch \
-│           │   └── rsp.launch.py \
-│           ├── package.xml \
-│           └── worlds \
-│               └── empty.world \
-└── run_docker.bash \

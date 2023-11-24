@@ -5,14 +5,10 @@
 ## then run this script
 xhost local:root
 
-
 XAUTH=/tmp/.docker.xauth
 
-
-docker build -t car_sym .
-
 docker run -it \
-    --name=ros_test \
+    --name=roscar_container \
     --env="DISPLAY=$DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
@@ -20,6 +16,7 @@ docker run -it \
     --volume="$XAUTH:$XAUTH" \
     --net=host \
     --privileged \
-    car_sym \
+    roscar_v2 \
     bash
+
 echo "Done."
