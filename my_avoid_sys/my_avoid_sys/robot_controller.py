@@ -53,7 +53,7 @@ class Multiplexing(Node):
     def exeCommand(self, msg):
         assert isinstance(msg, String)
         # print msg
-        print('command:', msg.data)
+        print('[robot_controller]receive command:', msg.data)
         # msg processing
         author, key = msg.data.split(' ')
         # check current author
@@ -81,19 +81,19 @@ class Multiplexing(Node):
     def setMode(self, msg):
         assert isinstance(msg, String)
         # print
-        print('set mode:', msg.data)
+        print('[robot_controller]set mode:', msg.data)
         # set mode
         self.mode = msg.data
 
 def main():
-    print('controller start')
+    print('[robot_controller]controller start')
     rclpy.init()
     # start node
     multiplexing = Multiplexing()
     try:
         rclpy.spin(multiplexing)
     except KeyboardInterrupt:
-        print('[KeyboardInterrupt]')
+        print('[robot_controller]KeyboardInterrupt')
     finally:
         # stop node
         multiplexing.destroy_node()
