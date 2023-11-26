@@ -26,7 +26,7 @@ setup(
             'obstacle_detect = my_avoid_sys.obstacle_detect:main',
             'teleop_twist = my_avoid_sys.teleop_twist:main',
             'robot_controller = my_avoid_sys.robot_controller:main',
-            'data_server = my_avoid_sys.data_server:main',
+            'data_transmission = my_avoid_sys.data_transmission:main',
         ],
     },
 )

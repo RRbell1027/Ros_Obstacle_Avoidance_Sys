@@ -18,7 +18,6 @@ class DisplayImageWidget(QtWidgets.QWidget):
         self.image_frame.mousePressEvent = self.get_clicked_position
 
     def update_image(self, data):
-
         height, width, cloud = data.height, data.width, data.cloud
 
         # set position
@@ -31,8 +30,7 @@ class DisplayImageWidget(QtWidgets.QWidget):
         self.image_frame.setPixmap(self.qImg)
 
     def setPosition(self, height, width, cloud):
-        cloud.reshape(height, width, 3)
-        self.cloud = cloud
+        self.cloud = cloud.reshape((height, width, 3))
 
     def get_clicked_position(self, event):
         # get pixel's position

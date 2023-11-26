@@ -4,7 +4,7 @@ import os
 DB_FILE = 'other/car_database.db'
 
 def create_db():
-    """建立資料庫及相應表格的函數"""
+    """建立資料庫及相應表格"""
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
 
@@ -43,6 +43,20 @@ def add_data(car_id, time_stamp, sensor_data):
 
     conn.commit()
     conn.close()
+
+def is_car_id_exists(car_id):
+    """檢查 car_id 是否存在於 car_id 表格中"""
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+
+    # 查詢是否存在指定的 car_id
+    c.execute("SELECT COUNT(*) FROM car_id WHERE car_id = ?", (car_id,))
+    count = c.fetchone()[0]
+
+    conn.close()
+
+    # 回傳是否存在（存在為True，不存在為False）
+    return count > 0
 
 if __name__ == '__main__':
     create_db()
