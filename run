@@ -1,0 +1,47 @@
+#!/bin/sh
+
+ProjectName=roscar
+if [ "$(whoami)" = "root" ]; then
+	echo "ERROR: do not use the BSP as root. Exiting..."
+	exit 1
+fi
+
+echo "Docker shared folder will mount /home/$USER/shared"
+letter=/home/$USER
+
+xhost local:root
+XAUTH=/tmp/.docker.xauth
+
+if [ -d $letter ] ;then
+	#Create Image
+	sudo docker images | grep ${ProjectName}-$(id -nu)>/dev/null;
+	if [ $? -ne 0 ]
+	then
+		sudo docker build -f Dockerfile -t ${ProjectName}-$(id -nu):v1 .
+	else
+		echo "Image ${ProjectName}-$(id -nu) is existed!!!"
+	fi
+
+	#Create Container
+	sudo docker ps -a | grep ${ProjectName}_$(id -nu)>/dev/null;
+	if [ $? -ne 0 ]
+	then
+	  	sudo docker run -it \
+	  	--rm \
+	        --name=${ProjectName}_$(id -nu) \
+    	        --env="DISPLAY=$DISPLAY" \
+	        --env="QT_X11_NO_MITSHM=1" \
+	        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+	        --env="XAUTHORITY=$XAUTH" \
+	        --volume="$XAUTH:$XAUTH" \
+	        --volume="./:/shared/workspace/" \
+	        --net=host \
+	        --privileged \
+	        ${ProjectName}-$(id -nu):v1 \
+	        bash
+	else
+		echo "Container ${ProjectName}_$(id -nu) is existed!!!"
+	fi
+else
+	echo ''$letter' has not existed';
+fi
