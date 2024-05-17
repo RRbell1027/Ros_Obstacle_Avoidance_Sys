@@ -30,11 +30,9 @@ def generate_launch_description():
     )
 
     # Create a camera node
-    args = ['127.0.0.1', '8888']
     camera_position = Node(
         package='my_sensor',
-        executable='camera',
-        arguments=args
+        executable='camera'
     )
 
     # Create a rviz node
@@ -53,7 +51,7 @@ def generate_launch_description():
             description='Use sim time if true'),
 
         node_robot_state_publisher,
-        camera_position,
-        rviz
+        rviz,
+        camera_position    
 
     ])

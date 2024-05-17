@@ -75,43 +75,36 @@ def main(args=None):
         client_socket = None
         try:
             # connect camera and host
-            print('wait for connect...')
             client_socket, client_address = socket_connect(server_socket)
-            print(f'client socket: {client_socket}, address: {client_address}')
-        except TimeoutError:
-            continue
-        except Exception as e:
-            print(f'An error occurred: {e}')
-            break
             
-        while True:
-            try:
-                # tcp wait recieve distance data
-                position = socket_recv(client_socket)
-                if not position:
-                    print("distance not found, disconnected.")
-                    client_socket.close()
-                    break
-
-                # processs position
-                tx, ty, tz = process(position)
-                
-                # ros publish
-                message = PointStamped()
-                message.header.frame_id = 'odom'
-                message.point.x = tx
-                message.point.y = ty
-                message.point.z = tz
-                node.publisher_.publish(message)
-                node.update_position(tx, ty, tz)
-
-            except KeyboardInterrupt as e:
-                print(f'An error occurred: {e}')
-                stop = True
+            # tcp wait recieve distance data
+            position = socket_recv(client_socket)
+            if not position:
+                print("distance not found, disconnected.")
+                client_socket.close()
                 break
-            except:
-                print(f'An error occurred: {e}')
-                break
+
+            # processs position
+            tx, ty, tz = process(position)
+            
+            # ros publish
+            message = PointStamped()
+            message.header.frame_id = 'odom'
+            message.point.x = tx
+            message.point.y = ty
+            message.point.z = tz
+            node.publisher_.publish(message)
+            node.update_position(tx, ty, tz)
+
+    except TimeoutError:
+        continue
+    except KeyboardInterrupt as e:
+        print(f'An error occurred: {e}')
+        stop = True
+        break
+    except:
+        print(f'An error occurred: {e}')
+        break
 
 
     node.destroy_node()
