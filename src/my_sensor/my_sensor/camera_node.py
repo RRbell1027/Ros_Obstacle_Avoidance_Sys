@@ -49,7 +49,7 @@ def main(args=None):
     ip, port = args[0], args[1]
 
     #init server socket
-    server_socket = socket_init(ip, port)
+    server_socket = socket_init('192.168.150.132', 8888)
 
     # init Node
     rclpy.init(args=args)
@@ -61,8 +61,7 @@ def main(args=None):
         try:
             # connect camera and host
             print('wait for connect...')
-            # client_socket = socket_connect(server_socket)
-            client_socket, client_address = server_socket.accept()
+            client_socket = socket_connect(server_socket)
             print(f'client socket: {client_socket}, address: {client_address}')
         except TimeoutError:
             continue
