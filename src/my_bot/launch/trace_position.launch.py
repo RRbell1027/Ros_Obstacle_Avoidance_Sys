@@ -3,7 +3,9 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
 
@@ -29,6 +31,12 @@ def generate_launch_description():
         parameters=[params]
     )
 
+    # For two wheel
+    node_joint_state_publisher_gui = Node(
+    package='joint_state_publisher_gui',
+    executable='joint_state_publisher_gui'
+    )
+
     # Create a camera node
     camera_position = Node(
         package='my_sensor',
@@ -43,6 +51,14 @@ def generate_launch_description():
         arguments=args
     )
 
+    # Launch Lidar
+    rplidar_publisher = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('rplidar_ros'),'launch','rplidar.launch.py'
+                )])
+    )
+
+
     # Launch!
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -51,7 +67,9 @@ def generate_launch_description():
             description='Use sim time if true'),
 
         node_robot_state_publisher,
+        node_joint_state_publisher_gui,
         rviz,
-        camera_position    
+        rplidar_publisher,
+        camera_position
 
     ])

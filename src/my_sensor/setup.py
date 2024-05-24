@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'camera = my_sensor.camera_node:main'
+            'camera = my_sensor.camera_node:main',
+            'fake = my_sensor.fake_node:main'
         ],
     },
 )

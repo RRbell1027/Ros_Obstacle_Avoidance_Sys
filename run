@@ -26,19 +26,37 @@ if [ -d $letter ] ;then
 	sudo docker ps -a | grep ${ProjectName}_$(id -nu)>/dev/null;
 	if [ $? -ne 0 ]
 	then
-	  	sudo docker run -it \
-	  	--rm \
-	        --name=${ProjectName}_$(id -nu) \
+        if [ -e /dev/ttyUSB0 ] ;then
+            sudo chmod 666 /dev/ttyUSB0
+            sudo docker run -it \
+          	    --rm \
+                --name=${ProjectName}_$(id -nu) \
     	        --env="DISPLAY=$DISPLAY" \
-	        --env="QT_X11_NO_MITSHM=1" \
-	        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-	        --env="XAUTHORITY=$XAUTH" \
-	        --volume="$XAUTH:$XAUTH" \
-	        --volume="./:/shared/workspace/" \
-	        --net=host \
-	        --privileged \
-	        ${ProjectName}-$(id -nu):v1 \
-	        bash
+                --env="QT_X11_NO_MITSHM=1" \
+                --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+                --env="XAUTHORITY=$XAUTH" \
+                --volume="$XAUTH:$XAUTH" \
+                --volume="./:/shared/workspace/" \
+                --device="/dev/ttyUSB0" \
+                --net=host \
+                --privileged \
+                ${ProjectName}-$(id -nu):v1 \
+                bash
+        else            
+	      	sudo docker run -it \
+	      	    --rm \
+	            --name=${ProjectName}_$(id -nu) \
+    	        --env="DISPLAY=$DISPLAY" \
+	            --env="QT_X11_NO_MITSHM=1" \
+	            --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+	            --env="XAUTHORITY=$XAUTH" \
+	            --volume="$XAUTH:$XAUTH" \
+	            --volume="./:/shared/workspace/" \
+	            --net=host \
+	            --privileged \
+	            ${ProjectName}-$(id -nu):v1 \
+	            bash
+        fi
 	else
 		echo "Container ${ProjectName}_$(id -nu) is existed!!!"
 	fi
